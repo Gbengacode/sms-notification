@@ -7,6 +7,7 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 
 app.post("/sms-response", async (req, res) => {
+    console.log(req.body);
     const { From, Body } = req.body;
 
     // Save response in Supabase
