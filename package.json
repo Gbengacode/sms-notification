@@ -1,0 +1,19 @@
+{
+  "name": "backendautomation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --watch --env-file=.env server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.48.1",
+    "express": "^4.21.2",
+    "moment-timezone": "^0.5.47",
+    "node-cron": "^3.0.3",
+    "twilio": "^5.4.4"
+  }
+}
