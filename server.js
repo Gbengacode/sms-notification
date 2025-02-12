@@ -18,7 +18,7 @@ app.post('/sms-response', async (req, res) => {
   if (Body.trim().toUpperCase() === 'Y') {
     await sendSMS(From, 'Thank you! Have a wonderful day. Safe Not Sorry.')
     await supabase
-      .from('check-ins')
+      .from('check_ins')
       .update({ status: 'completed', completed_at: new Date() })
       .eq('phone_number', From)
       .order('created_at', { ascending: false }) // Assuming `created_at` exists
