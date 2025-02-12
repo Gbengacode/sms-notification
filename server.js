@@ -1,26 +1,31 @@
-import express from "express";
-import supabase from "./config/db.js";
-import { sendSMS } from "./sms.js";
-import "./cron-jobs.js";
-const app = express();
+import express from 'express'
+import supabase from './config/db.js'
+import { sendSMS } from './sms.js'
+import './cron-jobs.js'
+const app = express()
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }))
 
-app.post("/sms-response", async (req, res) => {
-    console.log(req.body);
-    const { From, Body } = req.body;
+app.post('/sms-response', async (req, res) => {
+  console.log(req.body)
+  const { From, Body } = req.body
 
-    // Save response in Supabase
-    await supabase.from("responses").insert([
-        { phone_number: From, response: Body.trim() },
-    ]);
+  // Save response in Supabase
+  await supabase
+    .from('responses')
+    .insert([{ phone_number: From, response: Body.trim() }])
 
-    if (Body.trim().toUpperCase() === "Y") {
-        await sendSMS(From, "Thank you! Have a wonderful day. Safe Not Sorry.");
-        await supabase.from("checkins").update({ status: "completed" }).eq("phone_number", From);
-    }
+  if (Body.trim().toUpperCase() === 'Y') {
+    await sendSMS(From, 'Thank you! Have a wonderful day. Safe Not Sorry.')
+    await supabase
+      .from('check-ins')
+      .update({ status: 'completed', completed_at: new Date() })
+      .eq('phone_number', From)
+      .order('created_at', { ascending: false }) // Assuming `created_at` exists
+      .limit(1)
+  }
 
-    res.sendStatus(200);
-});
+  res.sendStatus(200)
+})
 
-app.listen(3000, () => console.log("🚀 Server running on port 3000"));
+app.listen(3000, () => console.log('🚀 Server running on port 3000'))

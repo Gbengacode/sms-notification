@@ -50,7 +50,7 @@ async function processCheckIns () {
     // Create check-in record
     const { data: checkIn, error: checkInError } = await supabase
       .from('check_ins')
-      .insert([{ user_id, status: 'pending', scheduled_for: new Date() }])
+      .insert([{ user_id, status: 'pending', phone_number, scheduled_for: new Date() }])
       .select()
       .single()
    
