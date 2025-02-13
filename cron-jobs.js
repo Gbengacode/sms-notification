@@ -5,7 +5,14 @@ import moment from 'moment-timezone'
 
 // 🕒 Supported Australian Time Zones
 const AU_TIMEZONES = {
-  Eastern: ['Australia/Sydney', 'Australia/Melbourne', 'Australia/Brisbane'],
+  Eastern: [
+    'Australia/Sydney',
+    'Australia/Melbourne',
+    'Australia/Brisbane',
+    'Australia/Canberra',
+    'Australia/Hobart',
+    'Australia/Sydney'
+  ],
   Central: ['Australia/Adelaide', 'Australia/Darwin'],
   Western: ['Australia/Perth', 'Africa/Lagos']
 }
