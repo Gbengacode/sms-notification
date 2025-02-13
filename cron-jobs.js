@@ -3,11 +3,10 @@ import supabase from './config/db.js'
 import { sendSMS } from './sms.js'
 import moment from 'moment-timezone'
 
-
 // 🕒 Supported Australian Time Zones
 const AU_TIMEZONES = {
   Eastern: ['Australia/Sydney', 'Australia/Melbourne', 'Australia/Brisbane'],
-  //   Central: ['Australia/Adelaide', 'Australia/Darwin'],
+  Central: ['Australia/Adelaide', 'Australia/Darwin'],
   Western: ['Australia/Perth', 'Africa/Lagos']
 }
 
@@ -23,7 +22,6 @@ async function getUsersDueForCheckIn () {
     console.error('❌ Error fetching users:', error)
     return []
   }
-
 
   return users.filter(user => {
     if (!user.timezone || !user.check_in_time) return false
@@ -43,17 +41,19 @@ async function getUsersDueForCheckIn () {
 // 📩 Process check-ins
 async function processCheckIns () {
   const users = await getUsersDueForCheckIn()
-   
+
   for (const user of users) {
     const { id: user_id, phone_number, first_name } = user
 
     // Create check-in record
     const { data: checkIn, error: checkInError } = await supabase
       .from('check_ins')
-      .insert([{ user_id, status: 'pending', phone_number, scheduled_for: new Date() }])
+      .insert([
+        { user_id, status: 'pending', phone_number, scheduled_for: new Date() }
+      ])
       .select()
       .single()
-   
+
     if (checkInError) {
       console.error(
         `❌ Error creating check-in for ${phone_number}:`,
@@ -61,7 +61,7 @@ async function processCheckIns () {
       )
       continue
     }
-    
+
     // Send initial check-in SMS
     await sendSMS(
       phone_number,
@@ -75,8 +75,8 @@ async function processCheckIns () {
       .eq('id', checkIn.id)
 
     // Schedule follow-up checks
-    setTimeout(() => sendReminder(user, checkIn.id), 2 * 60 * 1000)
-    setTimeout(() => escalateCheckIn(user, checkIn.id), 5 * 60 * 1000)
+    setTimeout(() => sendReminder(user, checkIn.id), 15 * 60 * 1000)
+    setTimeout(() => escalateCheckIn(user, checkIn.id), 45 * 60 * 1000)
   }
 }
 
@@ -121,8 +121,8 @@ async function escalateCheckIn (user, check_in_id) {
     .single()
 
   if (!contact) {
-      console.warn(`⚠️ No emergency contact found for ${user_id}`)
-      
+    console.warn(`⚠️ No emergency contact found for ${user_id}`)
+
     return
   }
 
