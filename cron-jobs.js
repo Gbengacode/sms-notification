@@ -82,8 +82,8 @@ async function processCheckIns () {
       .eq('id', checkIn.id)
 
     // Schedule follow-up checks
-    setTimeout(() => sendReminder(user, checkIn.id), 2 * 60 * 1000)
-    setTimeout(() => escalateCheckIn(user, checkIn.id), 4 * 60 * 1000)
+    setTimeout(() => sendReminder(user, checkIn.id), 15 * 60 * 1000)
+    setTimeout(() => escalateCheckIn(user, checkIn.id), 45 * 60 * 1000)
   }
 }
 
