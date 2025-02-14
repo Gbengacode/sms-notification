@@ -6,6 +6,9 @@ const app = express()
 
 app.use(express.urlencoded({ extended: false }))
 
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 app.post('/sms-response', async (req, res) => {
   console.log(req.body)
   const { From, Body } = req.body
@@ -28,4 +31,4 @@ app.post('/sms-response', async (req, res) => {
   res.sendStatus(200)
 })
 
-app.listen(3000, () => console.log('🚀 Server running on port 3000'))
+app.listen(5000, () => console.log('🚀 Server running on port 3000'))
