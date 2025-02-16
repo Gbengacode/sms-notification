@@ -88,12 +88,12 @@ async function processCheckIns () {
     )
 
     // Schedule the reminder in 15 minutes
-    schedule.scheduleJob(new Date(now.getTime() + 2 * 60 * 1000), async () => {
+    schedule.scheduleJob(new Date(now.getTime() + 15 * 60 * 1000), async () => {
       await processReminders(checkIn.id)
     })
 
     // Schedule the escalation in 45 minutes
-    schedule.scheduleJob(new Date(now.getTime() + 4 * 60 * 1000), async () => {
+    schedule.scheduleJob(new Date(now.getTime() + 45 * 60 * 1000), async () => {
       await processEscalations(checkIn.id)
     })
 
