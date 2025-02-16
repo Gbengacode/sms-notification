@@ -27,8 +27,7 @@ app.post('/sms-response', async (req, res) => {
       .order('created_at', { ascending: false }) // Assuming `created_at` exists
       .limit(1)
   }
-
- 
+  res.status(200).end()
 })
 
 app.listen(5000, () => console.log('🚀 Server running on port 3000'))
