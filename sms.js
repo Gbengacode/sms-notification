@@ -1,6 +1,4 @@
 import twilio from 'twilio'
-
-console.log(process.env.TWILIO_SID)
 const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN)
 
 export async function sendSMS (to, message) {
@@ -15,5 +13,3 @@ export async function sendSMS (to, message) {
     console.error(`❌ Failed to send SMS to ${to}: ${error.message}`)
   }
 }
-
-

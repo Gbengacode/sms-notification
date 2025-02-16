@@ -28,7 +28,7 @@ app.post('/sms-response', async (req, res) => {
       .limit(1)
   }
 
-  res.sendStatus(200)
+ 
 })
 
 app.listen(5000, () => console.log('🚀 Server running on port 3000'))
